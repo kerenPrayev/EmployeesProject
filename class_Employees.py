@@ -3,19 +3,6 @@ import csv
 import xlsxwriter
 
 
-def make_basic_files():
-    employees_csv = open('employees.csv', 'w')
-    employees_csv.write("first_name,l_name,id_number,phone_number,adress,age,job\n")
-    employees_csv.close()
-
-    attendance_log = open('attendance_log.csv', 'w')
-    attendance_log.write('employee_id,full_name,date,start_hour,finish_hour,description\n')
-    attendance_log.close()
-
-
-make_basic_files()
-
-
 class Employes:
     number_of_employes = 0
     raise_amont = 1
@@ -179,110 +166,19 @@ class Employes:
         wb.close()
         print('your file is ready, please check in the directory.')
 
-
-class Menagers(Employes):
-    number_of_menagers = 0
-    menagers_objects = []
-
-    def __init__(self, f_n, l_n, i_d, phone, adreass, b_d, job):
-        super(Menagers, self).__init__(f_n, l_n, i_d, phone, adreass, b_d, job)
-        self.hayeard = []
-        Menagers.menagers_objects.append(self)
-        Menagers.number_of_menagers += 1
-
-    def add_hayeard(self, employe):
-        if employe in self.hayeard:
-            return f'error, the hayeard id:{employe.i_d} is already asined to the menager {self.full_name()}'
-        else:
-            self.hayeard.append(employe)
-            return f'the hayeard id:{employe.i_d} is now add to the menager {self.full_name()}'
-
-    def remove_hayeard(self, employe):
-        if employe in self.hayeard:
-            self.hayeard.remove(employe)
-            return f'the hayeard id:{employe.i_d} removed from the menager {self.full_name()}'
-        else:
-            return f'error, the hayeard id:{employe.i_d} is not under the menager {self.full_name()} view'
-
-    def get_hayeards_info(self):
-        hayeard_ditels = {h.i_d: {'f_n': h.f_n, 'l_n': h.l_n, 'i_d': h.i_d, 'phone': h.phone, 'adress': h.adreass}
-                          for h in self.hayeard}
-        return hayeard_ditels
-
-
-class Hayeard(Employes):
-    number_of_hayeards = 0
-    hayeard_objects = []
-
-    def __init__(self, f_n, l_n, i_d, phone, adreass, b_d, job, manager):
-        super(Hayeard, self).__init__(f_n, l_n, i_d, phone, adreass, b_d, job)
-        self.manager = manager
-        Hayeard.hayeard_objects.append(self)
-        manager.add_hayeard(self)
-        Hayeard.number_of_hayeards += 1
-
-    def change_menager(self, manager, new_menager):
-        manager.remove_hayeard(self)
-        self.manager = new_menager
-        new_menager.add_hayeard(self)
-        return f'{self.full_name()}\'s menager is now: {self.manager.full_name()}'
-
-
-def get_obje(employee_id):
-    for obj in Employes.employees_objects:
-        if obj.i_d == employee_id:
-            return obj
-
-
-m_options = [
-    'update start hour',
-    'update finish hour',
-    'show attandance log for month',
-    'meanage employees']
-m_meanage_employees_options = [
-    'add employee',
-    'remove employee from the company',
-    'change menager for employee',
-    'show my employees data',
-    'employees attandance']
-m_employees_attandance_options = [
-    'shaw attandance of all my hayeard in a corent mounth',
-    'shaw attandance of all my hayeard in date',
-    'attandance of spesipied employee',
-    'late employees report',
-    'update new employee start working day',
-    'update employe atendance spesipic']
-h_options = [
-    'update start hour',
-    'update finish hour',
-    'show attandance log for month']
-
-
-def get_an_action_number():
-    action_num = None
-    while action_num is None:
-        try:
-            action_num = int(input('please chose an action\'s number:  '))
-            break
-        except Exception as e:
-            print('!please enter a number.!')
-            print(e)
-            action_num = None
-    return action_num
-
-
-def get_month_num():
-    attendance_month = None
-    while attendance_month is None:
-        try:
-            attendance_month = int(input('enter month number:'))
-            if 1 <= attendance_month <= 12:
-                break
-            else:
-                print('please enter a month number between 1 - 12.')
+    @staticmethod
+    def get_month_num():
+        attendance_month = None
+        while attendance_month is None:
+            try:
+                attendance_month = int(input('enter month number:'))
+                if 1 <= attendance_month <= 12:
+                    break
+                else:
+                    print('please enter a month number between 1 - 12.')
+                    attendance_month = None
+            except Exception as e:
+                print('!please enter a number.!')
+                print(e)
                 attendance_month = None
-        except Exception as e:
-            print('!please enter a number.!')
-            print(e)
-            attendance_month = None
-    return attendance_month
+        return attendance_month
