@@ -17,6 +17,7 @@ check()
 
 
 def activating(employee_obje):
+    """activating the flow of the system acording to the employee object and the employee choices"""
 
     if employee_obje.job == 'h':
         for index, chose in enumerate(h_options):
@@ -339,6 +340,7 @@ def activating(employee_obje):
 
 
 def activate():
+    """first page of the system and getting the employee object by his id number"""
     print('welcome to the Employee Attendance Management System!')
     employee_id = input('enter id:')
     if not employee_id.isdigit():
@@ -353,6 +355,7 @@ def activate():
             print('actions available for you:')
             activating(employee_obje)
     activate()
+    """activating the system flow function"""
 
 
 activate()
